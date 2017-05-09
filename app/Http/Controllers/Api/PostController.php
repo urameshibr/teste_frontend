@@ -34,7 +34,7 @@ class PostController extends Controller
     public function index()
     {
         $data = [];
-        $data['posts'] = $this->model->all();
+        $data['posts'] = $this->model->with('user')->get();
         $data['total'] = $data['posts']->count();
 
         return $data['posts']->isEmpty()
@@ -45,7 +45,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreUserRequest $request
+     * @param StorePostRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StorePostRequest $request)
