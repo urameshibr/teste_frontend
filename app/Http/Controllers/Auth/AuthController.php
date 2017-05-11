@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterFormRequest;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
-class AuthController
+class AuthController extends Controller
 {
     public function register(RegisterFormRequest $request)
     {
@@ -15,7 +21,7 @@ class AuthController
         ]);
     }
 
-    public function signin(Request $request)
+    public function login(Request $request)
     {
         try {
             $token = JWTAuth::attempt($request->only('email', 'password'), [
@@ -39,11 +45,6 @@ class AuthController
             $meta['token'] = $token;
 
             return ['data' => $data, 'meta' => $meta];
-
-            /*return response()->json([
-                'data' => $data,
-                'meta' => $meta
-            ]);*/
         }
     }
 }
